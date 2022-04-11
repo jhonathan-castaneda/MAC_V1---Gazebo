@@ -1,0 +1,10 @@
+image_width: 400
+image_height: 150
+camera_name: head_camera
+camera_matrix:
+  rows: 3
+  cols: 3
+  data: [200, 0, 200, 0, 200, 75, 0, 0, 1]
+
+
+

@@ -1,0 +1,15 @@
+
+calibration_units: pixels 
+
+
+fish_undistorted_points:
+  rows: 4
+  cols: 2
+  data: [95, 319, 43, 397,   20, 23, 86, 104]  #FORMAT: x1 x2 x3 x4; y1 y2 y3 y4
+
+virtual_points:
+  rows: 4
+  cols: 2
+  data: [944.44, 916.66, 616.94, 584.17,   83.33, 944.44, 295.11, 732.667   ]
+  #meters data: 
+  #      [1.5, 17,  7.485,   11.015,  1,   1.5, 4.812,5.3115]   #FORMAT: x1 x2 x3 x4; y1 y2 y3 y4  
