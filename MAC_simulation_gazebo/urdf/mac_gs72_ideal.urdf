@@ -1,0 +1,315 @@
+<?xml version="1.0"?>
+<robot name ="volvo">
+
+ <!-- TRUCK_MODEL //////////////////////////////////////////////////////////////////////////////////////////// -->
+  <link name="volvo">
+    <visual>
+      <origin xyz="0 0 1.06487078714" rpy="0 0 0" />
+      <geometry> <mesh filename="package://mac/meshes/volvo_bin.STL" scale="0.001 0.001 0.001" />  </geometry> 
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 1.06487078714" rpy="0 0 0"/>  <geometry>  <box size="6.69686 1.700 2.13066"/>  </geometry> 
+    </collision>
+
+    <inertial>  <mass value="1000"/>  <inertia ixx="1000.0" ixy="0.0" ixz="0.0" iyy="1000.0" iyz="0.0" izz="1000.0"/>  </inertial>        
+  </link>
+
+ <!-- FRONTAL_CAM /////////////////////////////////////////////////////////////////////////////////////////////// -->
+  <link name = "f_cam">
+    <visual>
+      <origin xyz = "0 0 0" rpy = "0 0.7853 0" />  <geometry>  <box size = "0.03 0.06 0.04"/>  </geometry>
+    </visual>
+
+    <collision>
+      <origin xyz = "0 0 0" rpy = "0 0.7853 0" />  <geometry>  <box size = "0.03 0.06 0.04"/>  </geometry>
+    </collision>
+
+    <inertia>  <mass value = "10"/>  <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>  </inertia>
+  </link>
+
+ <!-- REAR_CAM /////////////////////////////////////////////////////////////////////////////////////////////// -->
+  <link name = "b_cam">
+    <visual>
+      <origin xyz = "0 0 0" rpy = "0 0.7853 0" />  <geometry>  <box size = "0.03 0.06 0.04"/>  </geometry>
+    </visual>
+
+    <collision>  
+      <origin xyz = "0 0 0" rpy = "0 0.7853 0" />  <geometry>  <box size = "0.03 0.06 0.04"/>  </geometry>  
+    </collision>
+
+    <inertia>  <mass value = "10"/>  <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>  </inertia>
+  </link>
+
+ <!-- LEFT_CAM /////////////////////////////////////////////////////////////////////////////////////////////// -->
+  <link name = "l_cam">
+    <visual>
+      <origin xyz = "0 0 0" rpy = "0 0.7853 0" />  <geometry>  <box size = "0.03 0.06 0.04"/>  </geometry>
+    </visual>
+
+    <collision>
+      <origin xyz = "0 0 0" rpy = "0 0.7853 0" />  <geometry> <box size = "0.03 0.06 0.04"/> </geometry>  
+    </collision>
+
+    <inertia> <mass value = "10"/>  <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>  </inertia>
+  </link> 
+
+ <!-- RIGHT_CAM /////////////////////////////////////////////////////////////////////////////////////////////// -->
+  <link name = "r_cam">
+    <visual>
+      <origin xyz = "0 0 0" rpy = "0 0.7853 0" />  <geometry>  <box size = "0.03 0.06 0.04"/>  </geometry>
+    </visual>
+
+    <collision>
+      <origin xyz = "0 0 0" rpy = "0 0.7853 0" />  <geometry>  <box size = "0.03 0.06 0.04"/>  </geometry>
+    </collision>
+
+    <inertia>  <mass value = "10"/>  <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>  </inertia>
+  </link>
+
+ <!-- /////////////////////////////////////////////////////////////////////////////////////////////// -->
+ <!-- JOINTS///////////////////////////////////////////////////////////////////////////////////////// -->
+
+  <joint name="base_f" type="fixed">
+        <origin xyz="3.225 0 1.2948" rpy="0 0 0"/>
+        <parent link="volvo"/>
+        <child link="f_cam"/>    
+  </joint>
+  
+  <joint name="base_b" type="fixed">
+        <origin xyz="-3.335 0 0.88487" rpy="0 0 3.14"/>
+        <parent link="volvo"/>
+        <child link="b_cam"/>    
+  </joint>
+
+  <joint name="base_l" type="fixed"> 
+        <origin xyz="0 0.865 1.4548" rpy="0 0 1.57"/>
+        <parent link="volvo"/>
+        <child link="l_cam"/>    
+  </joint>
+
+  <joint name="base_r" type="fixed">
+        <origin xyz="0 -0.865 1.4548" rpy="0 0 -1.57"/>
+        <parent link="volvo"/>
+        <child link="r_cam"/>    
+  </joint>
+
+ <!-- /////////////////////////////////////////////////////////////////////////////////////////////// -->
+ <!-- TEXTURES/////////////////////////////////////////////////////////////////////////////////////// -->
+
+ <gazebo reference="f_cam"> <material>Gazebo/Black</material> </gazebo> 
+ <gazebo reference="b_cam"> <material>Gazebo/Black</material> </gazebo>
+ <gazebo reference="l_cam"> <material>Gazebo/Black</material> </gazebo> 
+ <gazebo reference="r_cam"> <material>Gazebo/Black</material> </gazebo> 
+
+ <!-- /////////////////////////////////////////////////////////////////////////////////////////////// -->
+ <!-- SENSORS//////////////////////////////////////////////////////////////////////////////////////// -->
+
+ <!-- FRONTAL_CAM /////////////////////////////////////////////////////////////////////////////////////////////// -->
+ <gazebo reference="f_cam">
+   <sensor type="wideanglecamera" name="f_cam_sensor">
+     
+     <update_rate>30.0</update_rate>              <!-- FRAME RATE    -->
+     <camera name="f_cam_sensor">
+       <horizontal_fov>3.1415</horizontal_fov>    <!-- WIDE FOV == 180 DEG OR 3.14 RAD FOR THE CAMERA-->
+
+       <pose>0 0 0 0 0.7853 0</pose>              <!-- INCLINATION OF 45 DEG OR 0.7853 RAD-->
+
+       <image>
+         <width>1000</width>                      <!-- HORIZONTAL RESULOTION, PIXELS IN U DIRECTION  -->
+         <height>1000</height>                    <!-- VERTICAL RESOLUTION, PIXELS IN V DIRECTION    -->
+         <format>R8G8B8</format>
+       </image>
+
+       <clip>
+         <near>0.1</near>
+         <far>100</far>
+       </clip>
+
+       <lens>
+            <type>stereographic</type>            <!-- LENSES SIMULATED FOR THE CAMERA, STEREOGRAPHIC    -->
+            <scale_to_hfov>true</scale_to_hfov>
+            <cutoff_angle>3.1415</cutoff_angle>   <!-- WIDE FOV == 180 DEG OR 3.14 RAD FOR THE LENSES-->
+            <env_texture_size>512</env_texture_size>
+       </lens>
+
+       <always_on>1</always_on>
+       <update_rate>30</update_rate> 
+
+     </camera>
+ 
+     <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+       <alwaysOn>true</alwaysOn>
+       <updateRate>0.0</updateRate>
+       <cameraName>volvo/frontal_cam</cameraName>               <!-- BROADCAST TOPIC PWD PART 1 --> 
+       <imageTopicName>image_raw</imageTopicName>               <!-- BROADCAST TOPIC PWD PART 2 --> 
+       <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+       <frameName>f_cam</frameName>                             <!-- BROADCAST TOPIC PWD PART 3 --> 
+       <hackBaseline>0.0</hackBaseline>                         <!-- STEREO MODE DISABLED    -->
+     </plugin>
+     
+   </sensor>
+ 
+ </gazebo>
+
+
+ <!-- REAR_CAM /////////////////////////////////////////////////////////////////////////////////////////////// -->
+ <gazebo reference="b_cam">
+   <sensor type="wideanglecamera" name="b_cam_sensor">
+     <update_rate>30.0</update_rate>
+     <camera name="b_cam_sensor">
+       <horizontal_fov>3.1415</horizontal_fov>    <!-- FOV FROM DATASHEET == 170 DEG-->
+
+       <pose>0 0 0 0 0.7853 0</pose>
+
+       <image>
+         <width>1000</width>                       <!-- HORIZONTAL RESULOTION FROM DATASHEET  -->
+         <height>1000</height>                     <!-- VERTICAL RESOLUTION FROM DATASHEET    -->
+         <format>R8G8B8</format>
+       </image>
+
+       <clip>
+         <near>0.1</near>
+         <far>100</far>
+       </clip>
+
+       <lens>
+            <type>stereographic</type>
+            <scale_to_hfov>true</scale_to_hfov>
+            <cutoff_angle>3.1415</cutoff_angle>   <!-- FOV FROM DATASHEET == 170 DEG  -->
+            <env_texture_size>1024</env_texture_size>
+       </lens>
+
+       <always_on>1</always_on>
+       <update_rate>30</update_rate>
+
+     </camera>
+ 
+     <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+       <alwaysOn>true</alwaysOn>
+       <updateRate>0.0</updateRate>
+       <cameraName>volvo/back_cam</cameraName>               <!-- BROADCAST TOPIC PWD PART 1 --> 
+       <imageTopicName>image_raw</imageTopicName>               <!-- BROADCAST TOPIC PWD PART 2 --> 
+       <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+       <frameName>b_cam</frameName>                             <!-- BROADCAST TOPIC PWD PART 3 --> 
+       <hackBaseline>0.0</hackBaseline> 
+       <distortionK1>-0.276773</distortionK1>   <!-- K1 PLUMB BOB DIST -->
+       <distortionK2>0.050097</distortionK2>    <!-- K2 PLUMB BOB DIST -->
+       <distortionK3>0.011980</distortionK3>    <!-- K3 PLUMB BOB DIST -->
+       <distortionT1>0.002202</distortionT1>    <!-- K4 PLUMB BOB DIST -->
+       <distortionT2>0.0</distortionT2>         <!-- K5 PLUMB BOB DIST -->
+       <focal_lenght>0.0</focal_lenght>      <!-- FOCAL LENGTH FROM DATASHEET == 2.8 mm or 0.0028  ??? UPDATE THIS!--> 
+     </plugin>
+     
+   </sensor>
+ 
+ </gazebo>
+
+
+ <!-- LEFT_CAM /////////////////////////////////////////////////////////////////////////////////////////////// -->
+ <gazebo reference="l_cam">
+   <sensor type="wideanglecamera" name="l_cam_sensor">
+     <update_rate>30.0</update_rate>
+     <camera name="l_cam_sensor">
+       <horizontal_fov>3.1415</horizontal_fov>    <!-- FOV FROM DATASHEET == 170 DEG-->
+
+       <pose>0 0 0 0 0.7853 0</pose>
+
+       <image>
+         <width>1000</width>                       <!-- HORIZONTAL RESULOTION FROM DATASHEET  -->
+         <height>1000</height>                     <!-- VERTICAL RESOLUTION FROM DATASHEET    -->
+         <format>R8G8B8</format>
+       </image>
+
+       <clip>
+         <near>0.1</near>
+         <far>100</far>
+       </clip>
+
+       <lens>
+            <type>stereographic</type>
+            <scale_to_hfov>true</scale_to_hfov>
+            <cutoff_angle>3.1415</cutoff_angle>   <!-- FOV FROM DATASHEET == 170 DEG  -->
+            <env_texture_size>1024</env_texture_size>
+       </lens>
+
+       <always_on>1</always_on>
+       <update_rate>30</update_rate>
+
+     </camera>
+ 
+     <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+       <alwaysOn>true</alwaysOn>
+       <updateRate>0.0</updateRate>
+       <cameraName>volvo/left_cam</cameraName>               <!-- BROADCAST TOPIC PWD PART 1 --> 
+       <imageTopicName>image_raw</imageTopicName>               <!-- BROADCAST TOPIC PWD PART 2 --> 
+       <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+       <frameName>l_cam</frameName>                             <!-- BROADCAST TOPIC PWD PART 3 --> 
+       <hackBaseline>0.0</hackBaseline> 
+       <distortionK1>-0.276773</distortionK1>   <!-- K1 PLUMB BOB DIST -->
+       <distortionK2>0.050097</distortionK2>    <!-- K2 PLUMB BOB DIST -->
+       <distortionK3>0.011980</distortionK3>    <!-- K3 PLUMB BOB DIST -->
+       <distortionT1>0.002202</distortionT1>    <!-- K4 PLUMB BOB DIST -->
+       <distortionT2>0.0</distortionT2>         <!-- K5 PLUMB BOB DIST -->
+       <focal_lenght>0.0</focal_lenght>      <!-- FOCAL LENGTH FROM DATASHEET == 2.8 mm or 0.0028  ??? UPDATE THIS!--> 
+     </plugin>
+     
+   </sensor>
+ 
+ </gazebo>
+
+
+ <!-- RIGHT_CAM /////////////////////////////////////////////////////////////////////////////////////////////// -->
+ <gazebo reference="r_cam">
+   <sensor type="wideanglecamera" name="r_cam_sensor">
+     <update_rate>30.0</update_rate>
+     <camera name="r_cam_sensor">
+       <horizontal_fov>3.1415</horizontal_fov>    <!-- FOV FROM DATASHEET == 170 DEG-->
+
+       <pose>0 0 0 0 0.7853 0</pose>
+
+       <image>
+         <width>1000</width>                       <!-- HORIZONTAL RESULOTION FROM DATASHEET  -->
+         <height>1000</height>                     <!-- VERTICAL RESOLUTION FROM DATASHEET    -->
+         <format>R8G8B8</format>
+       </image>
+
+       <clip>
+         <near>0.1</near>
+         <far>100</far>
+       </clip>
+
+       <lens>
+            <type>stereographic</type>
+            <scale_to_hfov>true</scale_to_hfov>
+            <cutoff_angle>3.1415</cutoff_angle>   <!-- FOV FROM DATASHEET == 170 DEG  -->
+            <env_texture_size>1024</env_texture_size>
+       </lens>
+
+       <always_on>1</always_on>
+       <update_rate>30</update_rate>
+
+     </camera>
+ 
+     <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+       <alwaysOn>true</alwaysOn>
+       <updateRate>0.0</updateRate>
+       <cameraName>volvo/right_cam</cameraName>               <!-- BROADCAST TOPIC PWD PART 1 --> 
+       <imageTopicName>image_raw</imageTopicName>               <!-- BROADCAST TOPIC PWD PART 2 --> 
+       <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+       <frameName>r_cam</frameName>                             <!-- BROADCAST TOPIC PWD PART 3 --> 
+       <hackBaseline>0.0</hackBaseline> 
+       <distortionK1>-0.276773</distortionK1>   <!-- K1 PLUMB BOB DIST -->
+       <distortionK2>0.050097</distortionK2>    <!-- K2 PLUMB BOB DIST -->
+       <distortionK3>0.011980</distortionK3>    <!-- K3 PLUMB BOB DIST -->
+       <distortionT1>0.002202</distortionT1>    <!-- K4 PLUMB BOB DIST -->
+       <distortionT2>0.0</distortionT2>         <!-- K5 PLUMB BOB DIST -->
+       <focal_lenght>0.0</focal_lenght>      <!-- FOCAL LENGTH FROM DATASHEET == 2.8 mm or 0.0028  ??? UPDATE THIS!--> 
+     </plugin>
+     
+   </sensor>
+ 
+ </gazebo>
+
+
+</robot>

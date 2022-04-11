@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<launch>   
+
+ <!--args for gazebo-->
+       <include file="$(find gazebo_ros)/launch/empty_world.launch"> 
+              <arg name="world_name" value="$(find mac)/worlds/volvo_world.world"/>
+              <arg name="paused" value="true"/>
+              <arg name="use_sim_time" value="False"/>   
+       </include>
+
+ <!-- Load the URDF into the ROS Parameter Server -->
+       <arg name="model" default="/home/sierra/catkin_ws/src/mac/urdf/mac_gs72_ideal.urdf"/>
+       <!-- in the line above, changhe the path section "/home/sierra/catkin_ws/src"
+       by the path to the directory where your URDF file "mac_gs72.urdf" is located-->
+
+       <param name="robot_description" textfile="$(arg model)" />
+
+       <node name="volvo_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+       args="-urdf -param robot_description -model volvo -z 0"/>
+ <!--
+       <node name="rqt_image_view" pkg="rqt_image_view" type="rqt_image_view" respawn="false" output="screen">
+       </node>     
+ -->
+
+
+ </launch>
